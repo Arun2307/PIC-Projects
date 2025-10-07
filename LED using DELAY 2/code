@@ -1,0 +1,26 @@
+#include<pic.h>
+void delay(int count)
+{
+	while(count--);
+}
+int main()
+{
+	TRISB=0x00;
+	PORTB=0x00;
+	ANSEL=0x00;
+	ANSELH=0x00;
+	int i, PORT[9]={0X00,0x01,0x03,0x07,0X0F,0x1F,0x3F,0x7F,0xFF};
+	while(1)
+	{
+		for(i=0;i<9;i++)
+		{
+			PORTB=PORT[i];
+			delay(50000);
+		}
+		for(i=8;i>=0;i--)
+		{
+			PORTB=PORT[i];
+			delay(50000);
+		}	
+	}
+}
