@@ -1,0 +1,22 @@
+#include<pic.h>
+void delay(int count)
+{
+	while(count--)
+	{
+	}
+}
+int main()
+{
+	TRISB=0x00;
+	PORTB=0x00;
+	ANSEL=0x00;
+	ANSELH=0x00;
+	while(1)
+	{
+		PORTB=0xFF;
+		delay(10000);
+		PORTB=0x00;
+		delay(10000);
+	}
+}
+		
