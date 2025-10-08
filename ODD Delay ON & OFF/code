@@ -25,52 +25,52 @@ int main()
 		for(i=0;i<5;i++)
 		{
 			PORTA=PORT[i];
-			delay(20000);
+			delay(10000);
 		}
 		for(i=0;i<5;i++)
 		{
 			PORTB=PORT[i];
-			delay(20000);
+			delay(10000);
 		}
 		for(i=0;i<5;i++)
 		{
 			PORTC=PORT[i];
-			delay(20000);
+			delay(10000);
 		}
 		for(i=0;i<5;i++)
 		{
 			PORTD=PORT[i];
-			delay(20000);
+			delay(10000);
 		}
 		for(i=0;i<3;i++)
 		{
 			PORTE=PORT[i];
-			delay(20000);
+			delay(10000);
 		}
 		for(i=3;i>=0;i--)
 		{
 			PORTE=PORT[i];
-			delay(20000);
+			delay(10000);
 		}
 		for(i=4;i>=0;i--)
 		{
 			PORTD=PORT[i];
-			delay(20000);
+			delay(10000);
 		}
 		for(i=4;i>=0;i--)
 		{
 			PORTC=PORT[i];
-			delay(20000);
+			delay(10000);
 		}
 		for(i=4;i>=0;i--)
 		{
 			PORTB=PORT[i];
-			delay(20000);
+			delay(10000);
 		}
 		for(i=4;i>=0;i--)
 		{
 			PORTA=PORT[i];
-			delay(20000);
+			delay(10000);
 		}	
 	}
 }
