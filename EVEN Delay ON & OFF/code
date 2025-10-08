@@ -1,0 +1,76 @@
+#include<pic.h>
+void delay(int count)
+{
+	while(count--)
+	{
+	}
+}
+int main()
+{
+	TRISA=0x00;
+	TRISB=0x00;
+	TRISC=0x00;
+	TRISD=0x00;
+	TRISE=0x00;
+	PORTA=0x00;
+	PORTB=0x00;
+	PORTC=0x00;
+	PORTD=0x00;
+	PORTE=0x00;
+	ANSEL=0x00;
+	ANSELH=0x00;
+	int i,PORT[5]={0x00,0x02,0x0A,0x2A,0xAA};
+	while(1)
+	{
+		for(i=0;i<5;i++)
+		{
+			PORTA=PORT[i];
+			delay(10000);
+		}
+		for(i=0;i<5;i++)
+		{
+			PORTB=PORT[i];
+			delay(10000);
+		}
+		for(i=0;i<5;i++)
+		{
+			PORTC=PORT[i];
+			delay(10000);
+		}
+		for(i=0;i<5;i++)
+		{
+			PORTD=PORT[i];
+			delay(10000);
+		}
+		for(i=0;i<3;i++)
+		{
+			PORTE=PORT[i];
+			delay(10000);
+		}
+		for(i=3;i>=0;i--)
+		{
+			PORTE=PORT[i];
+			delay(10000);
+		}
+		for(i=4;i>=0;i--)
+		{
+			PORTD=PORT[i];
+			delay(10000);
+		}
+		for(i=4;i>=0;i--)
+		{
+			PORTC=PORT[i];
+			delay(10000);
+		}
+		for(i=4;i>=0;i--)
+		{
+			PORTB=PORT[i];
+			delay(10000);
+		}
+		for(i=4;i>=0;i--)
+		{
+			PORTA=PORT[i];
+			delay(10000);
+		}	
+	}
+}	
