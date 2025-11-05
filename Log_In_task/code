@@ -1,0 +1,205 @@
+#include<pic.h>
+#define LCD PORTB
+#define RS RA0
+#define RW RA1
+#define EN RA2
+int num[4];
+void delay(int count)
+{
+	while(count--)
+	{
+	}
+}
+void refresh()
+{
+	EN=1;
+	delay(1000);
+	EN=0;
+	delay(1000);
+}
+void on()
+{
+	RS=0;
+	RW=0;
+	LCD=0X0E;
+	refresh();
+}
+void type()
+{
+	RS=0;
+	RW=0;
+	LCD=0X38;
+	refresh();
+}
+void address(int cursor)
+{
+	RS=0;
+	RW=0;
+	LCD=cursor;
+	refresh();
+}
+void data1(int value)
+{
+	RS=1;
+	RW=0;
+	LCD=value;
+	refresh();
+}
+void data(char *letter)
+{
+	while(*letter)
+	{
+		RS=1;
+		RW=0;
+		LCD=*letter;
+		refresh();
+		letter++;
+	}
+}
+void keypad()
+{
+	//address(0X01);
+	//address(0XC0);
+	int i=0;
+	while(i<4)
+	{
+		RC0=1;RC1=0;RC2=0;RC3=0;//ROW 1
+		if(RC4==1)
+		{
+			data1('1');
+			num[i]=1;
+			i++;
+			while(RC4==1);
+		}
+		if(RC5==1)
+		{
+			data1('2');
+			num[i]=2;
+			i++;
+			while(RC5==1);
+		}
+		if(RC6==1)
+		{
+			data1('3');
+			num[i]=3;
+			i++;
+			while(RC6==1);
+		}
+		RC0=0;RC1=1;RC2=0;RC3=0;//ROW 2
+		if(RC4==1)
+		{
+			data1('4');
+			num[i]=4;
+			i++;
+			while(RC4==1);
+		}
+		if(RC5==1)
+		{
+			data1('5');
+			num[i]=5;
+			i++;
+			while(RC5==1);
+		}
+		if(RC6==1)
+		{
+			data1('6');
+			num[i]=6;
+			i++;
+			while(RC6==1);
+		}
+		RC0=0;RC1=0;RC2=1;RC3=0;//ROW 3
+		if(RC4==1)
+		{
+			data1('7');
+			num[i]=7;
+			i++;
+			while(RC4==1);
+		}
+		if(RC5==1)
+		{
+			data1('8');
+			num[i]=8;
+			i++;
+			while(RC5==1);
+		}
+		if(RC6==1)
+		{
+			data1('9');
+			num[i]=9;
+			i++;
+			while(RC6==1);
+		}
+	}	
+}
+int main()
+{
+	TRISA=0X00;
+	PORTA=0X00;
+	TRISC=0X70;
+	PORTC=0X00;
+	TRISB=0X00;
+	PORTB=0X00;
+	ANSEL=0X00;
+	ANSELH=0X00;
+	on();
+	type();
+	int i=0,o_id[4]={1,1,2,2},o_pass[4]={4,3,2,1},count=0;
+	address(0x01);
+	address(0x80);
+	data("ENTER ID:");
+	while(1)
+	{
+		
+		keypad();
+		//ID
+		for(i=0;i<4;i++)
+		{
+			if(o_id[i]!=num[i])
+			{	
+				count=1;
+			}
+		}	
+		if(count==0)
+		{
+			address(0x01);
+			address(0x80);
+			data("PASSWORD:");
+			keypad();	
+		}
+		else
+		{
+			address(0x01);
+			address(0x80);
+			data("WRONG ID");
+			delay(50000);
+			break;
+		}
+		//PASSWORD
+		count=0;
+		for(i=0;i<4;i++)
+		{
+			if(o_pass[i]!=num[i])
+			{	
+				count=1;	
+			}
+		}
+		if(count==0)
+		{
+			address(0x01);
+			address(0x83);
+			data("LOGGED IN");
+			address(0xC2);
+			data("SUCCESSFULLY");
+		}
+		else
+		{
+			address(0x01);
+			address(0x80);
+			data("WRONG PASSWORD");
+			address(0xC4);
+			data("RE-ENTER");
+			delay(50000);
+			break;
+		}
+	}		
+}				
