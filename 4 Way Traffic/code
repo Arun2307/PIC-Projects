@@ -1,0 +1,36 @@
+#include<pic.h>
+#define RED 0x01
+#define YELLOW 0x02
+#define GREEN 0x04
+void delay(int count)
+{
+	while(count--)
+	{
+	}
+}
+int main()
+{
+	TRISA=0x00;
+	TRISB=0x00;
+	TRISC=0x00;
+	TRISD=0x00;
+	TRISE=0x00;
+	PORTA=0x00;
+	PORTB=0x00;
+	PORTC=0x00;
+	PORTD=0x00;
+	PORTE=0x00;
+	int i,PORT1[8]={GREEN,YELLOW,RED,RED,RED,RED,RED,YELLOW};//ROAD1
+	int PORT2[8]={RED,YELLOW,GREEN,YELLOW,RED,RED,RED,RED};//ROAD2
+	int	PORT3[8]={RED,RED,RED,YELLOW,GREEN,YELLOW,RED,RED};//ROAD3
+	int	PORT4[8]={RED,RED,RED,RED,RED,YELLOW,GREEN,YELLOW};//ROAD4
+	while(1)
+	{
+		for(i=0;i<8;i++)
+		{
+			PORTA=PORT1[i],PORTB=PORT2[i],PORTC=PORT3[i],PORTD=PORT4[i];
+			delay(60000);
+		}				
+	}
+}
+			
