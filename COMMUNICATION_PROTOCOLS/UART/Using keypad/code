@@ -1,0 +1,88 @@
+#include<pic.h>
+void delay(int count)
+{
+	while(count--)
+	{
+	}
+}
+void transmit(char data)
+{
+	TXREG=data;
+	while(TXIF==0);
+	TXIF=0;
+}
+void keypad()
+{
+	RD3=1;RD4=0;RD5=0;RD6=0;
+	if(RD0==1)
+	{
+		transmit('1');
+		while(RD0==1);
+	}
+	if(RD1==1)
+	{
+		transmit('2');
+		while(RD1==1);
+	}
+	if(RD2==1)
+	{
+		transmit('3');
+		while(RD2==1);
+	}
+	RD3=0;RD4=1;RD5=0;RD6=0;
+	if(RD0==1)
+	{
+		transmit('4');
+		while(RD0==1);
+	}
+	if(RD1==1)
+	{
+		transmit('5');
+		while(RD1==1);
+	}
+	if(RD2==1)
+	{
+		transmit('6');
+		while(RD2==1);
+	}
+	RD3=0;RD4=0;RD5=1;RD6=0;
+	if(RD0==1)
+	{
+		transmit('7');
+		while(RD0==1);
+	}
+	if(RD1==1)
+	{
+		transmit('8');
+		while(RD1==1);
+	}
+	if(RD2==1)
+	{
+		transmit('9');
+		while(RD2==1);
+	}
+	
+	RD3=0;RD4=0;RD5=0;RD6=1;
+	if(RD1==1)
+	{
+		transmit('0');
+		while(RD1==1);
+	}
+}	
+int main()
+{
+	TRISC=0X80;
+	PORTC=0X00;
+	TRISD=0X07;
+	PORTD=0X00;
+	TXSTA=0X26;
+	RCSTA=0X90;
+	SPBRG=25;
+	ANSEL=0X00;
+	ANSELH=0X00;
+	while(1)
+	{
+		keypad();
+	}
+}
+		
