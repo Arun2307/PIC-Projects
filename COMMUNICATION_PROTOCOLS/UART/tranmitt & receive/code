@@ -1,0 +1,89 @@
+#include<pic.h> 
+#define LCD PORTB 
+#define RS RA0 
+#define RW RA1 
+#define EN RA2 
+void delay(int count) 
+{ 
+ while(count--); 
+} 
+void refresh() 
+{ 
+	 EN=1; 
+	 delay(1000); 
+	 EN=0; 
+	 delay(1000); 
+}  
+void on() 
+{ 
+	 RW=0; 
+	 RS=0; 
+	 LCD=0X0E; 
+	 refresh(); 
+}
+void type() 
+{ 
+	 RS=0; 
+	 RW=0; 
+	 LCD=0X38; 
+	 refresh(); 
+} 
+void address(int cursor) 
+{ 
+	 RW=0; 
+	 RS=0; 
+	 LCD=cursor; 
+	 refresh(); 
+} 
+void data(char value) 
+{ 
+	 RS=1;
+	 RW=0;  
+	 LCD=value; 
+	 refresh(); 
+}
+/*void display(char*string)
+{
+	while(*string)
+	{
+		RS=1;
+		RW=0;
+		TXREG=*string;
+		string++;
+	}
+}*/
+void transmit(char value)
+{
+	TXREG=value;
+	while(TXIF==0);
+	TXIF=0;
+}
+void receiver() 
+{ 
+	while(RCIF==0);
+    int RX=RCREG; 
+ 	data(RX);  
+ 	RCIF=0; 
+} 
+int main() 
+{ 
+	TRISA=0X00; 
+	PORTA=0X00; 
+	TRISB=0X00; 
+	PORTB=0X00; 
+	TRISC=0X80; 
+	PORTC=0X00; 
+	ANSEL=0X00; 
+	ANSELH=0X00; 
+	TXSTA=0X26; 
+	RCSTA=0X90; 
+	SPBRG=25; 
+	on();
+	type(); 
+	address(0X80);
+	transmit('A');
+	while(1) 
+	{	
+	    receiver();
+	} 
+}
